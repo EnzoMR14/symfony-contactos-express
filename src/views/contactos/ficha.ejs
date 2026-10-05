@@ -1,0 +1,12 @@
+<% if (contacto) { %>
+  <h1>Ficha del contacto</h1>
+  <ul>
+    <li><strong><%= contacto.nombre %></strong></li>
+    <li><strong>Teléfono:</strong> <%= contacto.telefono %></li>
+    <li><strong>Email:</strong> <%= contacto.email %></li>
+    <li><strong>Provincia:</strong> <%= contacto.provincia ? contacto.provincia.nombre : 'Sin provincia' %></li>
+  </ul>
+<% } else { %>
+  <p>No se ha encontrado el contacto</p>
+<% } %>
+<p><a href="/contactos">Volver al listado</a></p>

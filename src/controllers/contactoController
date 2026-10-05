@@ -1,8 +1,19 @@
-const contactos = [
-  { id: 1, nombre: 'Pedro', telefono: '958642598', email: 'pedro@mail.com' },
-  { id: 2, nombre: 'Juan', telefono: '886659900', email: 'juan@mail.com' },
-];
+const { Contacto, Provincia } = require('../models');
 
-exports.listar = (req, res) => {
+exports.listar = async (req, res) => {
+  const contactos = await Contacto.findAll({
+    include: { model: Provincia, as: 'provincia' },
+    order: [['nombre', 'ASC']],
+  });
   res.render('contactos/index', { titulo: 'Contactos', contactos });
+};
+
+exports.ficha = async (req, res, next) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) return next();
+
+  const contacto = await Contacto.findByPk(id, {
+    include: { model: Provincia, as: 'provincia' },
+  });
+  res.render('contactos/ficha', { titulo: 'Ficha del contacto', contacto });
 };

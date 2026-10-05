@@ -3,20 +3,23 @@
     "dotenv": "^18.0.5",
     "ejs": "^7.0.1",
     "express": "^5.2.1",
-    "express-ejs-layouts": "^2.5.1"
+    "express-ejs-layouts": "^2.5.1",
+    "mysql2": "^3.24.5",
+    "sequelize": "^6.37.8"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5"
   },
   "name": "symfony-contactos-express",
   "description": "Migración de la app de gestión de contactos de Symfony a Node.js + Express.",
   "version": "1.0.0",
   "main": "src/server.js",
-"scripts": {
-  "dev": "nodemon src/server.js",
-  "start": "node src/server.js"
-},
-"repository": {
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/EnzoMR14/symfony-contactos-express.git"
   },

@@ -1,6 +1,10 @@
 <h1>Listado de contactos</h1>
 <ul>
   <% contactos.forEach(c => { %>
-    <li><%= c.nombre %> - <%= c.telefono %> - <%= c.email %></li>
+    <li>
+      <a href="/contactos/<%= c.id %>"><%= c.nombre %></a>
+      - <%= c.telefono %> - <%= c.email %>
+      - <%= c.provincia ? c.provincia.nombre : 'Sin provincia' %>
+    </li>
   <% }) %>
 </ul>
