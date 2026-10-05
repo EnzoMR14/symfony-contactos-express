@@ -1,3 +1,6 @@
 body { font-family: sans-serif; margin: 2rem; background: #f4f6f8; }
 h1 { border-bottom: 1px solid #333; }
 nav a { margin-right: 1rem; }
+.error { color: #b00020; margin: 0.25rem 0 0.75rem; }
+label { display: block; margin-top: 0.75rem; }
+input, select { padding: 0.4rem; min-width: 260px; }

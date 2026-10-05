@@ -1,4 +1,5 @@
 const { Contacto, Provincia } = require('../models');
+const { validationResult } = require('express-validator');
 
 exports.listar = async (req, res) => {
   const contactos = await Contacto.findAll({
@@ -16,4 +17,94 @@ exports.ficha = async (req, res, next) => {
     include: { model: Provincia, as: 'provincia' },
   });
   res.render('contactos/ficha', { titulo: 'Ficha del contacto', contacto });
+};
+
+// Formulario vacío
+exports.formNuevo = async (req, res) => {
+  const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+  res.render('contactos/form', {
+    titulo: 'Nuevo contacto',
+    accion: '/contactos/nuevo',
+    provincias,
+    datos: {},
+    errores: {},
+  });
+};
+
+// Guardar el contacto nuevo
+exports.crear = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+    return res.status(422).render('contactos/form', {
+      titulo: 'Nuevo contacto',
+      accion: '/contactos/nuevo',
+      provincias,
+      datos: req.body,
+      errores: errors.mapped(),
+    });
+  }
+
+  const { nombre, telefono, email, provinciaId } = req.body;
+  const contacto = await Contacto.create({
+    nombre,
+    telefono,
+    email,
+    provinciaId: provinciaId || null,
+  });
+  res.redirect(`/contactos/${contacto.id}`);
+};
+
+// Formulario de edición con los datos actuales
+exports.formEditar = async (req, res, next) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) return next();
+
+  const contacto = await Contacto.findByPk(id);
+  if (!contacto) return res.render('contactos/ficha', { titulo: 'Contacto', contacto: null });
+
+  const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+  res.render('contactos/form', {
+    titulo: 'Modificar contacto',
+    accion: `/contactos/${id}/editar`,
+    provincias,
+    datos: contacto,
+    errores: {},
+  });
+};
+
+// Guardar los cambios
+exports.actualizar = async (req, res, next) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) return next();
+
+  const contacto = await Contacto.findByPk(id);
+  if (!contacto) return res.render('contactos/ficha', { titulo: 'Contacto', contacto: null });
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+    return res.status(422).render('contactos/form', {
+      titulo: 'Modificar contacto',
+      accion: `/contactos/${id}/editar`,
+      provincias,
+      datos: req.body,
+      errores: errors.mapped(),
+    });
+  }
+
+  const { nombre, telefono, email, provinciaId } = req.body;
+  await contacto.update({ nombre, telefono, email, provinciaId: provinciaId || null });
+  res.redirect(`/contactos/${id}`);
+};
+
+// Borrar
+exports.eliminar = async (req, res, next) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) return next();
+
+  await Contacto.destroy({ where: { id } });
+  res.redirect('/contactos');
 };
