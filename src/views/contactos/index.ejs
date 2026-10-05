@@ -1,0 +1,6 @@
+<h1>Listado de contactos</h1>
+<ul>
+  <% contactos.forEach(c => { %>
+    <li><%= c.nombre %> - <%= c.telefono %> - <%= c.email %></li>
+  <% }) %>
+</ul>

@@ -1,0 +1,8 @@
+const contactos = [
+  { id: 1, nombre: 'Pedro', telefono: '958642598', email: 'pedro@mail.com' },
+  { id: 2, nombre: 'Juan', telefono: '886659900', email: 'juan@mail.com' },
+];
+
+exports.listar = (req, res) => {
+  res.render('contactos/index', { titulo: 'Contactos', contactos });
+};
