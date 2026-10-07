@@ -1,13 +1,41 @@
-<h1>Listado de contactos</h1>
-<% if (usuario) { %>
-<p><a href="/contactos/nuevo">+ Nuevo contacto</a></p>
+<div class="page-head">
+  <h1>Listado de contactos</h1>
+  <% if (usuario) { %>
+    <a class="btn btn-primary" href="/contactos/nuevo">+ Nuevo contacto</a>
+  <% } %>
+</div>
+
+<% if (contactos.length === 0) { %>
+  <div class="card empty">
+    <p>Todavía no hay contactos.</p>
+  </div>
+<% } else { %>
+  <div class="card table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Provincia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% contactos.forEach(c => { %>
+          <tr>
+            <td><a href="/contactos/<%= c.id %>"><%= c.nombre %></a></td>
+            <td><%= c.telefono %></td>
+            <td><%= c.email %></td>
+            <td>
+              <% if (c.provincia) { %>
+                <span class="badge"><%= c.provincia.nombre %></span>
+              <% } else { %>
+                <span class="badge badge-muted">Sin provincia</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
 <% } %>
-<ul>
-  <% contactos.forEach(c => { %>
-    <li>
-      <a href="/contactos/<%= c.id %>"><%= c.nombre %></a>
-      - <%= c.telefono %> - <%= c.email %>
-      - <%= c.provincia ? c.provincia.nombre : 'Sin provincia' %>
-    </li>
-  <% }) %>
-</ul>

@@ -1,25 +1,27 @@
-<h1>Registro</h1>
+<div class="auth">
+  <h1>Registro</h1>
 
-<form method="POST" action="/registro" novalidate>
-  <div>
-    <label for="nombre">Nombre</label>
-    <input type="text" id="nombre" name="nombre" value="<%= datos.nombre || '' %>" required>
-    <% if (errores.nombre) { %><p class="error"><%= errores.nombre.msg %></p><% } %>
-  </div>
+  <form class="card" method="POST" action="/registro" novalidate>
+    <div>
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" value="<%= datos.nombre || '' %>" required>
+      <% if (errores.nombre) { %><p class="error"><%= errores.nombre.msg %></p><% } %>
+    </div>
 
-  <div>
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" value="<%= datos.email || '' %>" required>
-    <% if (errores.email) { %><p class="error"><%= errores.email.msg %></p><% } %>
-  </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" value="<%= datos.email || '' %>" required>
+      <% if (errores.email) { %><p class="error"><%= errores.email.msg %></p><% } %>
+    </div>
 
-  <div>
-    <label for="password">Contraseña</label>
-    <input type="password" id="password" name="password" required>
-    <% if (errores.password) { %><p class="error"><%= errores.password.msg %></p><% } %>
-  </div>
+    <div>
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" required>
+      <% if (errores.password) { %><p class="error"><%= errores.password.msg %></p><% } %>
+    </div>
 
-  <button type="submit">Crear cuenta</button>
-</form>
+    <button type="submit" class="btn btn-primary">Crear cuenta</button>
+  </form>
 
-<p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+  <p class="auth-note">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+</div>

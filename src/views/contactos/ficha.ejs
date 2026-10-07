@@ -1,20 +1,38 @@
 <% if (contacto) { %>
-  <h1>Ficha del contacto</h1>
-  <ul>
-    <li><strong><%= contacto.nombre %></strong></li>
-    <li><strong>Teléfono:</strong> <%= contacto.telefono %></li>
-    <li><strong>Email:</strong> <%= contacto.email %></li>
-    <li><strong>Provincia:</strong> <%= contacto.provincia ? contacto.provincia.nombre : 'Sin provincia' %></li>
-  </ul>
+  <div class="card">
+    <div class="profile">
+      <div class="avatar"><%= contacto.nombre.charAt(0).toUpperCase() %></div>
+      <div>
+        <h1 class="profile-name"><%= contacto.nombre %></h1>
+        <% if (contacto.provincia) { %>
+          <span class="badge"><%= contacto.provincia.nombre %></span>
+        <% } else { %>
+          <span class="badge badge-muted">Sin provincia</span>
+        <% } %>
+      </div>
+    </div>
 
-  <% if (usuario) { %>
-    <p><a href="/contactos/<%= contacto.id %>/editar">Editar</a></p>
-    <form method="POST" action="/contactos/<%= contacto.id %>/eliminar"
-          onsubmit="return confirm('¿Seguro que quieres borrar este contacto?');">
-      <button type="submit">Borrar</button>
-    </form>
-  <% } %>
+    <dl class="details">
+      <dt>Teléfono</dt>
+      <dd><%= contacto.telefono %></dd>
+      <dt>Email</dt>
+      <dd><a href="mailto:<%= contacto.email %>"><%= contacto.email %></a></dd>
+    </dl>
+
+    <div class="actions">
+      <a class="btn btn-outline" href="/contactos">Volver al listado</a>
+      <% if (usuario) { %>
+        <a class="btn btn-primary" href="/contactos/<%= contacto.id %>/editar">Editar</a>
+        <form class="inline" method="POST" action="/contactos/<%= contacto.id %>/eliminar"
+              onsubmit="return confirm('¿Seguro que quieres borrar este contacto?');">
+          <button type="submit" class="btn btn-danger">Borrar</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
 <% } else { %>
-  <p>No se ha encontrado el contacto</p>
+  <div class="card empty">
+    <p>No se ha encontrado el contacto</p>
+    <a class="btn btn-outline" href="/contactos">Volver al listado</a>
+  </div>
 <% } %>
-<p><a href="/contactos">Volver al listado</a></p>
