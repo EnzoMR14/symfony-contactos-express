@@ -23,7 +23,7 @@
       </thead>
       <tbody>
         <% contactos.forEach(c => { %>
-          <tr>
+          <tr class="fila-click" data-href="<%= usuario ? '/contactos/' + c.id + '/editar' : '/contactos/' + c.id %>">
             <td><a href="/contactos/<%= c.id %>"><%= c.nombre %></a></td>
             <td><%= c.telefono %></td>
             <td><%= c.email %></td>
@@ -47,3 +47,12 @@
     </table>
   </div>
 <% } %>
+
+<script>
+  document.querySelectorAll('tr[data-href]').forEach((fila) => {
+    fila.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return; // el enlace del nombre sigue yendo a la ficha
+      window.location.href = fila.dataset.href;
+    });
+  });
+</script>
