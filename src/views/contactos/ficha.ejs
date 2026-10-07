@@ -7,13 +7,13 @@
     <li><strong>Provincia:</strong> <%= contacto.provincia ? contacto.provincia.nombre : 'Sin provincia' %></li>
   </ul>
 
-  <p>
-    <a href="/contactos/<%= contacto.id %>/editar">Editar</a>
-  </p>
-  <form method="POST" action="/contactos/<%= contacto.id %>/eliminar"
-        onsubmit="return confirm('¿Seguro que quieres borrar este contacto?');">
-    <button type="submit">Borrar</button>
-  </form>
+  <% if (usuario) { %>
+    <p><a href="/contactos/<%= contacto.id %>/editar">Editar</a></p>
+    <form method="POST" action="/contactos/<%= contacto.id %>/eliminar"
+          onsubmit="return confirm('¿Seguro que quieres borrar este contacto?');">
+      <button type="submit">Borrar</button>
+    </form>
+  <% } %>
 <% } else { %>
   <p>No se ha encontrado el contacto</p>
 <% } %>

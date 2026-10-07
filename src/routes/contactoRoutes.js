@@ -1,16 +1,19 @@
 const router = require('express').Router();
 const ctrl = require('../controllers/contactoController');
 const { validarContacto } = require('../validators/contactoValidator');
+const { estaLogueado } = require('../middlewares/auth');
 
+// Públicas
 router.get('/', ctrl.listar);
 
-// Las rutas fijas (/nuevo) van ANTES que las que llevan :id
-router.get('/nuevo', ctrl.formNuevo);
-router.post('/nuevo', validarContacto, ctrl.crear);
+// Privadas: hay que haber iniciado sesión
+router.get('/nuevo', estaLogueado, ctrl.formNuevo);
+router.post('/nuevo', estaLogueado, validarContacto, ctrl.crear);
 
 router.get('/:id', ctrl.ficha);
-router.get('/:id/editar', ctrl.formEditar);
-router.post('/:id/editar', validarContacto, ctrl.actualizar);
-router.post('/:id/eliminar', ctrl.eliminar);
+
+router.get('/:id/editar', estaLogueado, ctrl.formEditar);
+router.post('/:id/editar', estaLogueado, validarContacto, ctrl.actualizar);
+router.post('/:id/eliminar', estaLogueado, ctrl.eliminar);
 
 module.exports = router;

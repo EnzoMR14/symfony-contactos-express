@@ -1,3 +1,14 @@
 <nav>
   <a href="/contactos">Contactos</a>
+
+  <% if (usuario) { %>
+    <a href="/contactos/nuevo">Nuevo contacto</a>
+    <span>Hola, <%= usuario.nombre %></span>
+    <form method="POST" action="/logout" style="display:inline">
+      <button type="submit">Salir</button>
+    </form>
+  <% } else { %>
+    <a href="/login">Entrar</a>
+    <a href="/registro">Registrarse</a>
+  <% } %>
 </nav>
