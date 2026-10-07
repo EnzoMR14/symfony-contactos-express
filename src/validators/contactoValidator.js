@@ -15,4 +15,7 @@ exports.validarContacto = [
   body('provinciaId')
     .optional({ values: 'falsy' })
     .isInt().withMessage('La provincia no es válida'),
+  body('paisId')
+    .optional({ values: 'falsy' })
+    .isInt().withMessage('El país no es válido'),
 ];

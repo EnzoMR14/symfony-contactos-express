@@ -32,6 +32,18 @@
       </select>
       <% if (errores.provinciaId) { %><p class="error"><%= errores.provinciaId.msg %></p><% } %>
     </div>
+        <div>
+      <label for="paisId">País</label>
+      <select id="paisId" name="paisId">
+        <option value="">-- Sin país --</option>
+        <% paises.forEach(p => { %>
+          <option value="<%= p.id %>" <%= String(datos.paisId) === String(p.id) ? 'selected' : '' %>>
+            <%= p.nombre %>
+          </option>
+        <% }) %>
+      </select>
+      <% if (errores.paisId) { %><p class="error"><%= errores.paisId.msg %></p><% } %>
+    </div>
 
     <div class="actions">
       <button type="submit" class="btn btn-primary">Guardar</button>

@@ -18,6 +18,7 @@
           <th>Teléfono</th>
           <th>Email</th>
           <th>Provincia</th>
+          <th>País</th>
         </tr>
       </thead>
       <tbody>
@@ -31,6 +32,13 @@
                 <span class="badge"><%= c.provincia.nombre %></span>
               <% } else { %>
                 <span class="badge badge-muted">Sin provincia</span>
+              <% } %>
+            </td>
+            <td>
+              <% if (c.pais) { %>
+                <span class="badge"><%= c.pais.nombre %></span>
+              <% } else { %>
+                <span class="badge badge-muted">Sin país</span>
               <% } %>
             </td>
           </tr>

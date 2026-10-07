@@ -17,6 +17,8 @@
       <dd><%= contacto.telefono %></dd>
       <dt>Email</dt>
       <dd><a href="mailto:<%= contacto.email %>"><%= contacto.email %></a></dd>
+      <dt>País</dt>
+      <dd><%= contacto.pais ? contacto.pais.nombre : 'Sin país' %></dd>
     </dl>
 
     <div class="actions">

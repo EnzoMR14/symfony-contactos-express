@@ -1,9 +1,21 @@
-const { Contacto, Provincia } = require('../models');
+const { Contacto, Provincia, Pais } = require('../models');
 const { validationResult } = require('express-validator');
+
+const incluir = [
+  { model: Provincia, as: 'provincia' },
+  { model: Pais, as: 'pais' },
+];
+
+// Datos para los desplegables del formulario
+async function cargarListas() {
+  const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+  const paises = await Pais.findAll({ order: [['nombre', 'ASC']] });
+  return { provincias, paises };
+}
 
 exports.listar = async (req, res) => {
   const contactos = await Contacto.findAll({
-    include: { model: Provincia, as: 'provincia' },
+    include: incluir,
     order: [['nombre', 'ASC']],
   });
   res.render('contactos/index', { titulo: 'Contactos', contactos });
@@ -13,19 +25,17 @@ exports.ficha = async (req, res, next) => {
   const id = Number(req.params.id);
   if (!Number.isInteger(id)) return next();
 
-  const contacto = await Contacto.findByPk(id, {
-    include: { model: Provincia, as: 'provincia' },
-  });
+  const contacto = await Contacto.findByPk(id, { include: incluir });
   res.render('contactos/ficha', { titulo: 'Ficha del contacto', contacto });
 };
 
 // Formulario vacío
 exports.formNuevo = async (req, res) => {
-  const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+  const listas = await cargarListas();
   res.render('contactos/form', {
     titulo: 'Nuevo contacto',
     accion: '/contactos/nuevo',
-    provincias,
+    ...listas,
     datos: {},
     errores: {},
   });
@@ -36,22 +46,23 @@ exports.crear = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+    const listas = await cargarListas();
     return res.status(422).render('contactos/form', {
       titulo: 'Nuevo contacto',
       accion: '/contactos/nuevo',
-      provincias,
+      ...listas,
       datos: req.body,
       errores: errors.mapped(),
     });
   }
 
-  const { nombre, telefono, email, provinciaId } = req.body;
+  const { nombre, telefono, email, provinciaId, paisId } = req.body;
   const contacto = await Contacto.create({
     nombre,
     telefono,
     email,
     provinciaId: provinciaId || null,
+    paisId: paisId || null,
   });
   res.redirect(`/contactos/${contacto.id}`);
 };
@@ -64,11 +75,11 @@ exports.formEditar = async (req, res, next) => {
   const contacto = await Contacto.findByPk(id);
   if (!contacto) return res.render('contactos/ficha', { titulo: 'Contacto', contacto: null });
 
-  const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+  const listas = await cargarListas();
   res.render('contactos/form', {
     titulo: 'Modificar contacto',
     accion: `/contactos/${id}/editar`,
-    provincias,
+    ...listas,
     datos: contacto,
     errores: {},
   });
@@ -85,18 +96,24 @@ exports.actualizar = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const provincias = await Provincia.findAll({ order: [['nombre', 'ASC']] });
+    const listas = await cargarListas();
     return res.status(422).render('contactos/form', {
       titulo: 'Modificar contacto',
       accion: `/contactos/${id}/editar`,
-      provincias,
+      ...listas,
       datos: req.body,
       errores: errors.mapped(),
     });
   }
 
-  const { nombre, telefono, email, provinciaId } = req.body;
-  await contacto.update({ nombre, telefono, email, provinciaId: provinciaId || null });
+  const { nombre, telefono, email, provinciaId, paisId } = req.body;
+  await contacto.update({
+    nombre,
+    telefono,
+    email,
+    provinciaId: provinciaId || null,
+    paisId: paisId || null,
+  });
   res.redirect(`/contactos/${id}`);
 };
 

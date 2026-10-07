@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Contacto.associate = (models) => {
     Contacto.belongsTo(models.Provincia, { foreignKey: 'provinciaId', as: 'provincia' });
+    Contacto.belongsTo(models.Pais, { foreignKey: 'paisId', as: 'pais' });
   };
 
   return Contacto;
