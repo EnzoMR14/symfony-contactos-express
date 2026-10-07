@@ -47,7 +47,7 @@ Node.js + Express, siguiendo la misma lógica de la aplicación original.
    SESSION_SECRET=una_cadena_larga_y_aleatoria
 ```
 
-   Para generar el `SESSION_SECRET`:
+Para generar el `SESSION_SECRET`:
 
 ```bash
    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
@@ -60,8 +60,8 @@ Node.js + Express, siguiendo la misma lógica de la aplicación original.
    npx sequelize-cli db:seed:all
 ```
 
-   Los seeders insertan datos cada vez que se ejecutan. Para repetirlos sin
-   duplicar, primero: `npx sequelize-cli db:seed:undo:all`.
+Los seeders insertan datos cada vez que se ejecutan. Para repetirlos sin
+duplicar, primero: `npx sequelize-cli db:seed:undo:all`.
 
 5. Arrancar la aplicación:
 
@@ -69,29 +69,31 @@ Node.js + Express, siguiendo la misma lógica de la aplicación original.
    npm run dev
 ```
 
-   Abrir http://localhost:3000
+Abrir http://localhost:3000
 
 ## Funcionalidades
 
 - Listado y ficha de contactos (público)
 - Alta, modificación y borrado de contactos, con validación en el servidor
   (solo con sesión iniciada)
-- Relación 1:N entre provincias y contactos
+- Relaciones 1:N de provincias y países con contactos
 - Registro, login y logout con sesiones y contraseñas cifradas con bcrypt
 - Middlewares para proteger las rutas privadas
 
 ## Rutas
 
-| Método | Ruta | Acceso |
-|---|---|---|
-| GET | `/contactos` | Público |
-| GET | `/contactos/:id` | Público |
-| GET, POST | `/contactos/nuevo` | Privado |
-| GET, POST | `/contactos/:id/editar` | Privado |
-| POST | `/contactos/:id/eliminar` | Privado |
-| GET, POST | `/registro` | Solo sin sesión |
-| GET, POST | `/login` | Solo sin sesión |
-| POST | `/logout` | Con sesión |
+| Método    | Ruta                      | Acceso          |
+| --------- | ------------------------- | --------------- |
+| GET       | `/contactos`              | Público         |
+| GET       | `/contactos/:id`          | Público         |
+| GET, POST | `/contactos/nuevo`        | Privado         |
+| GET, POST | `/contactos/:id/editar`   | Privado         |
+| POST      | `/contactos/:id/eliminar` | Privado         |
+| GET, POST | `/registro`               | Solo sin sesión |
+| GET, POST | `/login`                  | Solo sin sesión |
+| POST      | `/logout`                 | Con sesión      |
+
+Para crear, editar o borrar contactos hay que registrarse primero en `/registro`.
 
 ## Estructura del proyecto
 
